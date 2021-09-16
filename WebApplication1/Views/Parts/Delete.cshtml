@@ -1,0 +1,20 @@
+﻿@model WebApplication1.Models.Part
+
+@{
+    ViewData["ModalId"] = "Delete";
+    ViewData["Title"] = "Are you sure you want to delete this part?";
+    Layout = "~/Views/Shared/_PopUpLayout.cshtml";
+}
+
+<dl class="row">
+    @Html.DisplayForModel()
+</dl>
+
+<form asp-action="Delete">
+    @Html.HiddenFor(m => m.PartNumberCommonized)
+</form>
+
+@section Footer {
+    <button type="button" class="btn btn-danger" data-save="modal">Delete</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+}

@@ -1,0 +1,81 @@
+﻿@model IEnumerable<WebApplication1.Models.Part>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.PartNumberCommonized)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartH)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartW)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PartIntroDate)
+            </th>
+            <th>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Create"
+                        data-url="@Url.Action("Create")">
+                    Create New
+                </button>
+            </th>
+        </tr>
+    </thead>
+    <tbody id="Data"></tbody>
+</table>
+
+<div id="modelHolder"></div>
+@section Scripts{
+    <script language="javascript">
+        $(function () {
+
+            var modalHolder = $("#modelHolder");
+            var modalTaggleButtonClickAction = function (event) {
+                var url = decodeURIComponent($(this).data("url"))
+                $.get(url).done(function (data) {
+                    $('.modal-backdrop').remove();
+                    modalHolder.html(data);
+                    modalHolder.find(".modal").modal('show');
+                })
+            }
+
+            $('[data-toggle="modal"]').click(modalTaggleButtonClickAction)
+
+            var dataHolder = $("#Data");
+            var loadData = function (data) {
+                dataHolder.html(data);
+                dataHolder.find('[data-toggle="modal"]').click(modalTaggleButtonClickAction)
+            }
+            $.get('@Url.Action("List")').done(loadData)
+
+            modalHolder.on('click', '[data-save="modal"]', function (event) {
+                var form = $(this).parents(".modal").find('Form');
+                $.post(form.attr('action'), form.serialize())
+                    .done(function (data) {
+                        if (data.indexOf('modal-dialog') === -1) {
+                            loadData(data);
+                            modalHolder.find(".modal").modal('hide');
+                            $('.modal-backdrop').remove();
+                        }
+                        else {
+                            $('.modal-backdrop').remove();
+                            modalHolder.html(data);
+                            modalHolder.find(".modal").modal('show');
+                        }
+                    })
+            })
+
+
+        })
+
+    </script>
+}

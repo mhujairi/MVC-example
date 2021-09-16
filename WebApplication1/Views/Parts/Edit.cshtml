@@ -1,0 +1,18 @@
+﻿@model WebApplication1.Models.Part
+
+@{
+    ViewData["ModalId"] = "Edit";
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_PopUpLayout.cshtml";
+}
+
+<form asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    @Html.EditorForModel()
+</form>
+
+@section Footer {
+    <button type="button" class="btn btn-primary" data-save="modal">Save</button>
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

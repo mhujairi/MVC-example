@@ -1,0 +1,43 @@
+﻿@model IEnumerable<WebApplication1.Models.Part>
+
+@if (Model == null || !Model.Any())
+{
+    <tr>
+        <td colspan="6">
+            <p>Empty</p>
+        </td>
+    </tr>
+    return;
+}
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            <a href="#" data-toggle="modal" data-target="#Edit"
+               data-url="@Url.Action($"Edit/{item.PartNumberCommonized}")">
+                @Html.DisplayFor(modelItem => item.PartNumberCommonized)
+            </a>
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartL)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartH)
+        </td>
+        <td align="right">
+            @Html.DisplayFor(modelItem => item.PartW)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PartIntroDate)
+        </td>
+        <td>
+
+
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#Delete"
+                    data-url="@Url.Action($"Delete/{item.PartNumberCommonized}")">
+                Delete
+            </button>
+        </td>
+    </tr>
+}
